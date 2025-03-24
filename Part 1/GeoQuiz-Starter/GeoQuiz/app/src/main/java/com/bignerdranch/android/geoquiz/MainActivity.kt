@@ -23,8 +23,10 @@ class MainActivity : AppCompatActivity() {
     ) { result ->
         // Handle the result
         if (result.resultCode == Activity.RESULT_OK) {
-            quizViewModel.isCheater =
-                result.data?.getBooleanExtra(EXTRA_ANSWER_SHOWN, false) ?: false
+            val didCheat = result.data?.getBooleanExtra(EXTRA_ANSWER_SHOWN, false) ?: false
+            if (didCheat) {
+                quizViewModel.markCurrentQuestionCheated()
+            }
         }
     }
 

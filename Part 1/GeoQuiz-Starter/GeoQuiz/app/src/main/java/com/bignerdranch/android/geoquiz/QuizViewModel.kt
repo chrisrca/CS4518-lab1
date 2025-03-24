@@ -22,15 +22,18 @@ class QuizViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel(
         Question(R.string.question_asia, true, false)
     )
 
-    var isCheater: Boolean
-        get() = savedStateHandle.get(IS_CHEATER_KEY) ?: false
-        set(value) = savedStateHandle.set(IS_CHEATER_KEY, value)
+    val isCheater: Boolean
+        get() = questionBank[currentIndex].cheated
 
     val currentQuestionAnswer: Boolean
         get() = questionBank[currentIndex].answer
 
     val currentQuestionText: Int
         get() = questionBank[currentIndex].textResId
+
+    fun markCurrentQuestionCheated() {
+        questionBank[currentIndex].cheated = true
+    }
 
     fun moveToNext() {
         currentIndex = (currentIndex + 1) % questionBank.size

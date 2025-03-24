@@ -10,12 +10,14 @@ import com.bignerdranch.android.geoquiz.databinding.ActivityCheatBinding
 const val EXTRA_ANSWER_SHOWN = "com.bignerdranch.android.geoquiz.answer_shown"
 private const val EXTRA_ANSWER_IS_TRUE =
     "com.bignerdranch.android.geoquiz.answer_is_true"
+private const val KEY_ANSWER_SHOWN = "answer_shown"
 
 class CheatActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCheatBinding
 
     private var answerIsTrue = false
+    private var answerIsShown = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,6 +25,14 @@ class CheatActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         answerIsTrue = intent.getBooleanExtra(EXTRA_ANSWER_IS_TRUE, false)
+
+        if (savedInstanceState != null) {
+            answerIsShown = savedInstanceState.getBoolean(KEY_ANSWER_SHOWN, false)
+            if (answerIsShown) {
+                showAnswer()
+                setAnswerShownResult(true)
+            }
+        }
 
         binding.showAnswerButton.setOnClickListener {
             val answerText = when {
@@ -32,6 +42,14 @@ class CheatActivity : AppCompatActivity() {
             binding.answerTextView.setText(answerText)
             setAnswerShownResult(true)
         }
+    }
+
+    private fun showAnswer() {
+        val answerText = when {
+            answerIsTrue -> R.string.true_button
+            else -> R.string.false_button
+        }
+        binding.answerTextView.setText(answerText)
     }
 
     private fun setAnswerShownResult(isAnswerShown: Boolean) {

@@ -10,14 +10,14 @@ import com.bignerdranch.android.geoquiz.databinding.ActivityCheatBinding
 const val EXTRA_ANSWER_SHOWN = "com.bignerdranch.android.geoquiz.answer_shown"
 private const val EXTRA_ANSWER_IS_TRUE =
     "com.bignerdranch.android.geoquiz.answer_is_true"
-private const val KEY_ANSWER_SHOWN = "answer_shown"
 
 class CheatActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCheatBinding
-
+    
     private var answerIsTrue = false
-    private var answerIsShown = false
+    
+    private var isAnswerShown = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,29 +27,25 @@ class CheatActivity : AppCompatActivity() {
         answerIsTrue = intent.getBooleanExtra(EXTRA_ANSWER_IS_TRUE, false)
 
         if (savedInstanceState != null) {
-            answerIsShown = savedInstanceState.getBoolean(KEY_ANSWER_SHOWN, false)
-            if (answerIsShown) {
-                showAnswer()
+            isAnswerShown = savedInstanceState.getBoolean("answer_shown", false)
+            if (isAnswerShown) {
+                val answerText = if (answerIsTrue) R.string.true_button else R.string.false_button
+                binding.answerTextView.setText(answerText)
                 setAnswerShownResult(true)
             }
         }
 
         binding.showAnswerButton.setOnClickListener {
-            val answerText = when {
-                answerIsTrue -> R.string.true_button
-                else -> R.string.false_button
-            }
+            val answerText = if (answerIsTrue) R.string.true_button else R.string.false_button
             binding.answerTextView.setText(answerText)
+            isAnswerShown = true
             setAnswerShownResult(true)
         }
     }
 
-    private fun showAnswer() {
-        val answerText = when {
-            answerIsTrue -> R.string.true_button
-            else -> R.string.false_button
-        }
-        binding.answerTextView.setText(answerText)
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean("answer_shown", isAnswerShown)
     }
 
     private fun setAnswerShownResult(isAnswerShown: Boolean) {
@@ -67,3 +63,4 @@ class CheatActivity : AppCompatActivity() {
         }
     }
 }
+

@@ -21,6 +21,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import dagger.hilt.android.AndroidEntryPoint
+import android.util.Log
 
 /**
  * Main activity for the todoapp
@@ -30,11 +31,13 @@ class TodoActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d("TodoActivity", "onCreate started")
         enableEdgeToEdge()
         setContent {
             TodoTheme {
                 TodoNavGraph()
             }
         }
+        Log.d("TodoActivity", "onCreate finished")
     }
 }

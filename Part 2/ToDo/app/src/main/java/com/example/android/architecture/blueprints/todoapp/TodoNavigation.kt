@@ -25,6 +25,7 @@ import com.example.android.architecture.blueprints.todoapp.TodoScreens.ADD_EDIT_
 import com.example.android.architecture.blueprints.todoapp.TodoScreens.STATISTICS_SCREEN
 import com.example.android.architecture.blueprints.todoapp.TodoScreens.TASKS_SCREEN
 import com.example.android.architecture.blueprints.todoapp.TodoScreens.TASK_DETAIL_SCREEN
+import android.util.Log
 
 /**
  * Screens used in [TodoDestinations]
@@ -61,6 +62,7 @@ object TodoDestinations {
 class TodoNavigationActions(private val navController: NavHostController) {
 
     fun navigateToTasks(userMessage: Int = 0) {
+        Log.d("TodoNavigation", "Navigating to TasksScreen with userMessage: $userMessage")
         val navigatesFromDrawer = userMessage == 0
         navController.navigate(
             TASKS_SCREEN.let {

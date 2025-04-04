@@ -20,6 +20,7 @@ import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import timber.log.Timber.DebugTree
+import android.util.Log
 
 /**
  * Application that sets up Timber in the DEBUG BuildConfig.
@@ -31,5 +32,6 @@ class TodoApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         if (BuildConfig.DEBUG) Timber.plant(DebugTree())
+        Log.d("TodoApplication", "onCreate: Timber DebugTree started")
     }
 }

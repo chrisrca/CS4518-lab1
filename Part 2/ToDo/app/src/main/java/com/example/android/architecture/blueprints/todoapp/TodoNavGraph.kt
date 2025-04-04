@@ -42,6 +42,7 @@ import com.example.android.architecture.blueprints.todoapp.tasks.TasksScreen
 import com.example.android.architecture.blueprints.todoapp.util.AppModalDrawer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import android.util.Log
 
 @Composable
 fun TodoNavGraph(
@@ -68,6 +69,7 @@ fun TodoNavGraph(
                 navArgument(USER_MESSAGE_ARG) { type = NavType.IntType; defaultValue = 0 }
             )
         ) { entry ->
+            Log.d("TodoNavGraph", "Displaying TasksScreen with userMessage: ${entry.arguments?.getInt(USER_MESSAGE_ARG)}")
             AppModalDrawer(drawerState, currentRoute, navActions) {
                 TasksScreen(
                     userMessage = entry.arguments?.getInt(USER_MESSAGE_ARG)!!,
@@ -79,6 +81,7 @@ fun TodoNavGraph(
             }
         }
         composable(TodoDestinations.STATISTICS_ROUTE) {
+            Log.d("TodoNavGraph", "Displaying StatisticsScreen")
             AppModalDrawer(drawerState, currentRoute, navActions) {
                 StatisticsScreen(openDrawer = { coroutineScope.launch { drawerState.open() } })
             }
@@ -91,6 +94,7 @@ fun TodoNavGraph(
             )
         ) { entry ->
             val taskId = entry.arguments?.getString(TASK_ID_ARG)
+            Log.d("TodoNavGraph", "Displaying AddEditTaskScreen with title: ${entry.arguments?.getInt(TITLE_ARG)}")
             AddEditTaskScreen(
                 topBarTitle = entry.arguments?.getInt(TITLE_ARG)!!,
                 onTaskUpdate = {
@@ -102,6 +106,7 @@ fun TodoNavGraph(
             )
         }
         composable(TodoDestinations.TASK_DETAIL_ROUTE) {
+            Log.d("TodoNavGraph", "Displaying TaskDetailScreen")
             TaskDetailScreen(
                 onEditTask = { taskId ->
                     navActions.navigateToAddEditTask(R.string.edit_task, taskId)

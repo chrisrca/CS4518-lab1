@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.bignerdranch.android.geoquiz.databinding.FragmentQuestionDetailBinding
 
@@ -19,13 +20,15 @@ class QuestionDetailFragment : Fragment() {
     private val args: QuestionDetailFragmentArgs by navArgs()
     private var cheated = false
 
+    private val quizViewModel: QuizViewModel by viewModels()
+
     private val cheatLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             val didCheat = result.data?.getBooleanExtra(EXTRA_ANSWER_SHOWN, false) ?: false
             if (didCheat) {
-                cheated = true // Update the cheated field for this question
+                quizViewModel.markCurrentQuestionCheated()
             }
         }
     }
@@ -49,8 +52,8 @@ class QuestionDetailFragment : Fragment() {
         binding.questionTextView.setText(questionTextResId)
 
         // Set click listeners for answer buttons
-        binding.trueButton.setOnClickListener { checkAnswer(true, answer) }
-        binding.falseButton.setOnClickListener { checkAnswer(false, answer) }
+        binding.trueButton.setOnClickListener { checkAnswer(true) }
+        binding.falseButton.setOnClickListener { checkAnswer(false) }
 
         // Cheat button logic
         binding.cheatButton.setOnClickListener {
@@ -59,14 +62,23 @@ class QuestionDetailFragment : Fragment() {
         }
     }
 
-    private fun checkAnswer(userAnswer: Boolean, correctAnswer: Boolean) {
+//    private fun checkAnswer(userAnswer: Boolean, correctAnswer: Boolean) {
+//        val messageResId = when {
+//            cheated -> R.string.judgment_toast // Uses cheated field instead of isCheater
+//            userAnswer == correctAnswer -> R.string.correct_toast
+//            else -> R.string.incorrect_toast
+//        }
+//        Toast.makeText(requireContext(), messageResId, Toast.LENGTH_SHORT).show()
+//    }
+    private fun checkAnswer(userAnswer: Boolean) {
+        val correctAnswer = quizViewModel.currentQuestionAnswer
         val messageResId = when {
-            cheated -> R.string.judgment_toast // Uses cheated field instead of isCheater
+            quizViewModel.isCheater -> R.string.judgment_toast
             userAnswer == correctAnswer -> R.string.correct_toast
             else -> R.string.incorrect_toast
         }
         Toast.makeText(requireContext(), messageResId, Toast.LENGTH_SHORT).show()
-    }
+}
 
     override fun onDestroyView() {
         super.onDestroyView()

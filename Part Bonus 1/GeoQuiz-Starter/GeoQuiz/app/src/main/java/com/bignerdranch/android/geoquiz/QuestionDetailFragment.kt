@@ -43,33 +43,21 @@ class QuestionDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Retrieve arguments
         val questionTextResId = args.questionTextResId
         val answer = args.answer
-        cheated = args.cheated // Initialize cheated with argument value
+        cheated = args.cheated
 
-        // Display the question
         binding.questionTextView.setText(questionTextResId)
 
-        // Set click listeners for answer buttons
         binding.trueButton.setOnClickListener { checkAnswer(true) }
         binding.falseButton.setOnClickListener { checkAnswer(false) }
 
-        // Cheat button logic
         binding.cheatButton.setOnClickListener {
             val intent = CheatActivity.newIntent(requireContext(), answer)
             cheatLauncher.launch(intent)
         }
     }
 
-//    private fun checkAnswer(userAnswer: Boolean, correctAnswer: Boolean) {
-//        val messageResId = when {
-//            cheated -> R.string.judgment_toast // Uses cheated field instead of isCheater
-//            userAnswer == correctAnswer -> R.string.correct_toast
-//            else -> R.string.incorrect_toast
-//        }
-//        Toast.makeText(requireContext(), messageResId, Toast.LENGTH_SHORT).show()
-//    }
     private fun checkAnswer(userAnswer: Boolean) {
         val correctAnswer = quizViewModel.currentQuestionAnswer
         val messageResId = when {

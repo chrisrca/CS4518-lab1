@@ -39,26 +39,3 @@ class QuizViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel(
         currentIndex = (currentIndex + 1) % questionBank.size
     }
 }
-
-//package com.bignerdranch.android.geoquiz
-//
-//import androidx.lifecycle.LiveData
-//import androidx.lifecycle.MutableLiveData
-//import androidx.lifecycle.ViewModel
-//
-//class QuizViewModel : ViewModel() {
-//
-//    private val _questions = MutableLiveData<List<Question>>(listOf(
-//        Question(R.string.question_australia, true, false),
-//        Question(R.string.question_oceans, true, false),
-//        Question(R.string.question_mideast, false, false),
-//        Question(R.string.question_africa, false, false),
-//        Question(R.string.question_americas, true, false),
-//        Question(R.string.question_asia, true, false)
-//    ))
-//    val questions: LiveData<List<Question>> = _questions
-//
-//    fun markCurrentQuestionCheated() {
-//        questionBank[currentIndex].cheated = true
-//    }
-//}

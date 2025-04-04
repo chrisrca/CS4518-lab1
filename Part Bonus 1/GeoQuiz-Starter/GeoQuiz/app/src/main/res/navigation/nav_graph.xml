@@ -21,5 +21,6 @@
         tools:layout="@layout/fragment_question_detail">
         <argument android:name="questionTextResId" app:argType="integer" />
         <argument android:name="answer" app:argType="boolean" />
+        <argument android:name="cheated" app:argType="boolean" /> <!-- ✅ Added this line -->
     </fragment>
 </navigation>

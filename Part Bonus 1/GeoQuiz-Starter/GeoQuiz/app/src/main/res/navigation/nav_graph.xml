@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/questionListFragment">
+
+    <fragment
+        android:id="@+id/questionListFragment"
+        android:name="com.bignerdranch.android.geoquiz.QuestionListFragment"
+        tools:layout="@layout/fragment_question_list">
+        <action
+            android:id="@+id/action_questionListFragment_to_questionDetailFragment"
+            app:destination="@id/questionDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/questionDetailFragment"
+        android:name="com.bignerdranch.android.geoquiz.QuestionDetailFragment"
+        tools:layout="@layout/fragment_question_detail">
+        <argument android:name="questionTextResId" app:argType="integer" />
+        <argument android:name="answer" app:argType="boolean" />
+    </fragment>
+</navigation>
